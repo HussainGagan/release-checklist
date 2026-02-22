@@ -17,7 +17,6 @@ type ReleaseOutput = {
   updatedAt: string;
 };
 
-type ReleaseArgs = { id: string };
 type CreateReleaseArgs = {
   name: string;
   dueDate: string;
@@ -150,7 +149,6 @@ export const graphQLSchema = createSchema({
     type Query {
       releaseSteps: [ReleaseStep!]!
       releases: [Release!]!
-      release(id: ID!): Release
     }
 
     type Mutation {
@@ -174,21 +172,6 @@ export const graphQLSchema = createSchema({
           .orderBy(desc(releases.dueDate), desc(releases.id));
 
         return rows.map(toReleaseOutput);
-      },
-      release: async (
-        _parent: unknown,
-        args: ReleaseArgs,
-      ): Promise<ReleaseOutput | null> => {
-        const releaseId = parseReleaseId(args.id);
-        const row = await db.query.releases.findFirst({
-          where: eq(releases.id, releaseId),
-        });
-
-        if (!row) {
-          return null;
-        }
-
-        return toReleaseOutput(row);
       },
     },
     Mutation: {

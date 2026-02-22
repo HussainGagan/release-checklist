@@ -89,7 +89,6 @@ Query operations:
 
 - `releaseSteps`
 - `releases`
-- `release(id: ID!)`
 
 Mutation operations:
 

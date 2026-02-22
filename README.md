@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Release Checklist Tool
 
-## Getting Started
+Simple assignment project for managing software release checklists.
 
-First, run the development server:
+## Tech Stack
+
+- Next.js (App Router, TypeScript)
+- GraphQL API (GraphQL Yoga)
+- PostgreSQL + Drizzle ORM
+
+## Local Development
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Create local env file:
+
+```bash
+cp .env.example .env
+```
+
+3. Set `DATABASE_URL` in `.env`.
+
+4. Push schema to database:
+
+```bash
+npm run db:push
+```
+
+5. Start dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+6. Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Docker (App + DB)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Run the full stack with Docker Compose:
 
-## Learn More
+```bash
+docker compose up --build
+```
 
-To learn more about Next.js, take a look at the following resources:
+Services started:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `db`: PostgreSQL 16 on `localhost:5432`
+- `migrate`: one-off Drizzle schema sync (`npm run db:push`)
+- `app`: Next.js app on `http://localhost:3000`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Stop services:
 
-## Deploy on Vercel
+```bash
+docker compose down
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Stop and remove database volume:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+docker compose down -v
+```
+
+## Database
+
+Current schema includes one table: `releases`.
+
+Columns:
+
+- `id` (serial primary key)
+- `name` (varchar, required)
+- `due_date` (timestamp with timezone, required)
+- `additional_info` (text, optional)
+- `completed_step_ids` (text array of stable step IDs, required, default empty)
+- `created_at` (timestamp with timezone)
+- `updated_at` (timestamp with timezone)
+
+## API
+
+Endpoint:
+
+- `GET /api/graphql` (GraphiQL in development)
+- `POST /api/graphql`
+
+Query operations:
+
+- `releaseSteps`
+- `releases`
+- `release(id: ID!)`
+
+Mutation operations:
+
+- `createRelease(name: String!, dueDate: String!, additionalInfo: String)`
+- `setReleaseStep(releaseId: ID!, stepId: String!, checked: Boolean!)`
+- `updateReleaseInfo(releaseId: ID!, additionalInfo: String)`
+- `deleteRelease(releaseId: ID!)`

@@ -1,24 +1,287 @@
 .page {
-  display: flex;
   min-height: 100vh;
-  align-items: center;
-  justify-content: center;
+  padding: 32px 20px;
 }
 
-.main {
-  width: min(700px, 100%);
-  border: 1px solid #d9e2ec;
-  border-radius: 12px;
-  background: #ffffff;
-  padding: 32px;
+.shell {
+  width: min(980px, 100%);
+  margin: 0 auto;
   display: grid;
+  gap: 16px;
+}
+
+.header h1 {
+  margin: 0 0 6px;
+  font-size: 1.75rem;
+}
+
+.header p {
+  margin: 0;
+  color: #4f6275;
+}
+
+.errorBox {
+  border: 1px solid #e5a3a3;
+  background: #fff2f2;
+  color: #7a1f1f;
+  padding: 10px 12px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 12px;
 }
 
-@media (max-width: 600px) {
-  .main {
-    border: none;
-    border-radius: 0;
-    padding: 20px;
+.panel {
+  background: #ffffff;
+  border: 1px solid #d3deea;
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.panelHeader h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.headerActions {
+  display: flex;
+  gap: 8px;
+}
+
+.emptyState {
+  margin: 0;
+  color: #526679;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 620px;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 1px solid #e2e9f2;
+  vertical-align: middle;
+}
+
+.table th {
+  font-size: 0.9rem;
+  color: #4c5f72;
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.status {
+  display: inline-block;
+  text-transform: capitalize;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+}
+
+.statusplanned {
+  background: #eef2f7;
+  color: #485b70;
+}
+
+.statusongoing {
+  background: #eaf6ff;
+  color: #1f5f93;
+}
+
+.statusdone {
+  background: #eaf8ef;
+  color: #25623a;
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.formGrid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field span {
+  font-size: 0.9rem;
+  color: #44586c;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  border: 1px solid #c7d3e0;
+  border-radius: 8px;
+  padding: 10px 11px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.stepsBlock {
+  border: 1px solid #d9e2ec;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.stepsBlock h3 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+
+.stepsList {
+  display: grid;
+  gap: 8px;
+}
+
+.stepItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.shell button {
+  border: 1px solid #b8c6d4;
+  border-radius: 8px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.shell button:hover:not(:disabled) {
+  background: #f5f8fb;
+}
+
+.shell button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding: 18px 12px;
+  }
+
+  .panel {
+    padding: 14px;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .panelHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerActions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .errorBox {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 680px) {
+  .tableWrap {
+    overflow: visible;
+  }
+
+  .table {
+    min-width: 0;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tbody tr {
+    display: block;
+    border: 1px solid #d9e2ec;
+    border-radius: 8px;
+    padding: 8px 10px;
+    background: #fff;
+  }
+
+  .table td {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 8px;
+    border-bottom: none;
+    padding: 6px 0;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    color: #587085;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .actions {
+    gap: 8px;
+  }
+
+  .actions button {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .panelHeader > button {
+    width: 100%;
+  }
+
+  .headerActions button {
+    width: 100%;
   }
 }
